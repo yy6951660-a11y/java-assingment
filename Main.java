@@ -1,47 +1,35 @@
-class MessWallet {
-    private double balance;
+class BookInventory {
+    String title;
+    String author;
+    int copiesAvailable;
 
-    public MessWallet(double openingBalance) {
-        if (openingBalance < 0) {
-            System.out.println("Warning: Negative opening balance. Starting at 0.0");
-            balance = 0;
-        } else {
-            balance = openingBalance;
-        }
+    // Constructor
+    BookInventory(String title, String author, int copiesAvailable) {
+        this.title = title;
+        this.author = author;
+        this.copiesAvailable = copiesAvailable;
     }
 
-    public void topUp(double amount) {
-        if (amount <= 0) {
-            System.out.println("Top-up rejected: amount must be greater than 0");
-        } else {
-            balance += amount;
-            System.out.println("Balance after top-up: " + balance);
-        }
-    }
-
-    public void deduct(double amount) {
-        if (amount > balance) {
-            System.out.println("Deduct rejected: insufficient balance");
-        } else if (amount <= 0) {
-            System.out.println("Deduct rejected: amount must be greater than 0");
-        } else {
-            balance -= amount;
-        }
-    }
-
-    public double getBalance() {
-        return balance;
+    // Instance method
+    void printEntry() {
+        System.out.println(title + " by " + author + " - "
+                + copiesAvailable + " copies available");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        MessWallet wallet = new MessWallet(500);
 
-        wallet.topUp(200);
+        BookInventory[] books = {
+            new BookInventory("Clean Code", "Robert C. Martin", 3),
+            new BookInventory("Effective Java", "Joshua Bloch", 5),
+            new BookInventory("Refactoring", "Martin Fowler", 0),
+            new BookInventory("Design Patterns", "GoF", 2)
+        };
 
-        wallet.deduct(1000);
-
-        System.out.println("Final balance: " + wallet.getBalance());
+        // Print each book
+        for (BookInventory book : books) {
+            book.printEntry();
+        }
     }
 }

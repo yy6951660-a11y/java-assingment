@@ -1,34 +1,47 @@
-class PlacementRecord {
-    String studentName;
-    String company;
-    double packageLpa;
+class MessWallet {
+    private double balance;
 
-    // Constructor
-    PlacementRecord(String studentName, String company, double packageLpa) {
-        this.studentName = studentName;
-        this.company = company;
-        this.packageLpa = packageLpa;
+    public MessWallet(double openingBalance) {
+        if (openingBalance < 0) {
+            System.out.println("Warning: Negative opening balance. Starting at 0.0");
+            balance = 0;
+        } else {
+            balance = openingBalance;
+        }
     }
 
-    // Instance method
-    void printRecord() {
-        System.out.println(studentName + " -> " + company + " @ " + packageLpa + " LPA");
+    public void topUp(double amount) {
+        if (amount <= 0) {
+            System.out.println("Top-up rejected: amount must be greater than 0");
+        } else {
+            balance += amount;
+            System.out.println("Balance after top-up: " + balance);
+        }
+    }
+
+    public void deduct(double amount) {
+        if (amount > balance) {
+            System.out.println("Deduct rejected: insufficient balance");
+        } else if (amount <= 0) {
+            System.out.println("Deduct rejected: amount must be greater than 0");
+        } else {
+            balance -= amount;
+        }
+    }
+
+    public double getBalance() {
+        return balance;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+        MessWallet wallet = new MessWallet(500);
 
-        // Array of PlacementRecord objects
-        PlacementRecord[] records = {
-            new PlacementRecord("Ravi", "TCS", 4.5),
-            new PlacementRecord("Anitha", "Zoho", 6.2),
-            new PlacementRecord("Karthik", "Infosys", 4.0)
-        };
+        wallet.topUp(200);
 
-        // Print each record
-        for (PlacementRecord record : records) {
-            record.printRecord();
-        }
+        wallet.deduct(1000);
+
+        System.out.println("Final balance: " + wallet.getBalance());
     }
 }

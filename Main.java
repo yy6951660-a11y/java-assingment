@@ -1,35 +1,40 @@
-class BookInventory {
-    String title;
-    String author;
-    int copiesAvailable;
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+class PayrollAccount {
+   private double basicSalary;
+   private double bonus;
 
-    // Constructor
-    BookInventory(String title, String author, int copiesAvailable) {
-        this.title = title;
-        this.author = author;
-        this.copiesAvailable = copiesAvailable;
-    }
+   public PayrollAccount(double var1) {
+      if (var1 < (double)0.0F) {
+         System.out.println("Warning: Negative basic salary. Starting at Rs 0.0");
+         this.basicSalary = (double)0.0F;
+      } else {
+         this.basicSalary = var1;
+      }
 
-    // Instance method
-    void printEntry() {
-        System.out.println(title + " by " + author + " - "
-                + copiesAvailable + " copies available");
-    }
-}
+      this.bonus = (double)0.0F;
+   }
 
-public class Main {
-    public static void main(String[] args) {
+   public void creditBonus(double var1) {
+      if (var1 <= (double)0.0F) {
+         System.out.println("Bonus rejected: amount must be greater than 0");
+      } else {
+         this.bonus += var1;
+         System.out.println("Bonus credited: Rs " + var1);
+      }
 
-        BookInventory[] books = {
-            new BookInventory("Clean Code", "Robert C. Martin", 3),
-            new BookInventory("Effective Java", "Joshua Bloch", 5),
-            new BookInventory("Refactoring", "Martin Fowler", 0),
-            new BookInventory("Design Patterns", "GoF", 2)
-        };
+   }
 
-        // Print each book
-        for (BookInventory book : books) {
-            book.printEntry();
-        }
-    }
+   public void deductTax(double var1) {
+      if (!(var1 < (double)0.0F) && !(var1 > (double)100.0F)) {
+         this.basicSalary -= this.basicSalary * var1 / (double)100.0F;
+         System.out.println("Tax deducted: " + var1 + "%");
+      } else {
+         System.out.println("Tax rejected: percentage must be between 0 and 100");
+      }
+
+   }
+
+   public double getNetSalary() {
+      return this.basicSalary + this.bonus;
+   }
 }

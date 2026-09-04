@@ -1,35 +1,54 @@
-class BookInventory {
-    String title;
-    String author;
-    int copiesAvailable;
+class PayrollAccount {
+    private double basicSalary;
+    private double bonus;
 
     // Constructor
-    BookInventory(String title, String author, int copiesAvailable) {
-        this.title = title;
-        this.author = author;
-        this.copiesAvailable = copiesAvailable;
+    public PayrollAccount(double openingBasicSalary) {
+        if (openingBasicSalary < 0) {
+            System.out.println("Warning: Negative basic salary. Starting at Rs 0.0");
+            basicSalary = 0;
+        } else {
+            basicSalary = openingBasicSalary;
+        }
+
+        bonus = 0;
     }
 
-    // Instance method
-    void printEntry() {
-        System.out.println(title + " by " + author + " - "
-                + copiesAvailable + " copies available");
+    // Credit bonus
+    public void creditBonus(double amount) {
+        if (amount <= 0) {
+            System.out.println("Bonus rejected: amount must be greater than 0");
+        } else {
+            bonus += amount;
+            System.out.println("Bonus credited: Rs " + amount);
+        }
+    }
+
+    // Deduct tax
+    public void deductTax(double percent) {
+        if (percent < 0 || percent > 100) {
+            System.out.println("Tax rejected: percentage must be between 0 and 100");
+        } else {
+            basicSalary = basicSalary - (basicSalary * percent / 100);
+            System.out.println("Tax deducted: " + percent + "%");
+        }
+    }
+
+    // Read-only access to net salary
+    public double getNetSalary() {
+        return basicSalary + bonus;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
 
-        BookInventory[] books = {
-            new BookInventory("Clean Code", "Robert C. Martin", 3),
-            new BookInventory("Effective Java", "Joshua Bloch", 5),
-            new BookInventory("Refactoring", "Martin Fowler", 0),
-            new BookInventory("Design Patterns", "GoF", 2)
-        };
+        PayrollAccount account = new PayrollAccount(50000);
 
-        // Print each book
-        for (BookInventory book : books) {
-            book.printEntry();
-        }
+        account.creditBonus(5000);
+
+        account.deductTax(10);
+
+        System.out.println("Net salary: Rs " + account.getNetSalary());
     }
 }
